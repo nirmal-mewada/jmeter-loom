@@ -90,8 +90,4 @@ If you'd like to contribute to this project, please fork the repository and crea
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-```
 
-Remember to replace `<path-to-jmeter>` and `https://github.com/your-username/jmeter-plugin.git` with the actual path to your JMeter installation and the Git repository URL for your project.
-
-This README file provides clear instructions for setting up the project, installing the plugin, and building it using Maven while also encouraging contributions and providing licensing information.
