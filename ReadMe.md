@@ -52,7 +52,7 @@ To use this JMeter plugin, follow these steps:
 
 3. You can now use the plugin in your JMeter test plans by adding the appropriate elements to your test plan.
 
-4. Add Thread group element Note: I did not bother to rename extension, so you will find redundant menu item
+4. Add **Virtual Thread Group** element
 ![Alt Text](screenshots/Menu.png)
 5. Configure Threads. You will see title Virtual Thread Properties header for right thread group. 
 ![Alt Text](screenshots/ThreadProps.png)
@@ -67,21 +67,6 @@ location /test {
 
 7. Final Result.
 ![Alt Text](screenshots/Result.png)
-
-
-
-## Building the Maven Project
-
-If you want to make changes to the project and rebuild it, follow these steps:
-
-1. Make your changes to the source code.
-
-2. Build the project using Maven:
-   ```shell
-   mvn clean install
-   ```
-
-3. Update the JAR file in your JMeter installation's `lib/ext/` directory as described in the "Using the Plugin in JMeter" section above.
 
 ## Contribution
 

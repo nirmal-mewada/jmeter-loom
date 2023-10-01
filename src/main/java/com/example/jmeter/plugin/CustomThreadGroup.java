@@ -31,10 +31,11 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.ReentrantLock;
 
 public class CustomThreadGroup extends AbstractThreadGroup {
     private static final long serialVersionUID = 282L;
-    private static final Logger log = LoggerFactory.getLogger(ThreadGroup.class);
+    private static final Logger log = LoggerFactory.getLogger(CustomThreadGroup.class);
     private static final long WAIT_TO_DIE;
     private static final int RAMPUP_GRANULARITY;
     public static final String RAMP_TIME = "ThreadGroup.ramp_time";
@@ -44,7 +45,7 @@ public class CustomThreadGroup extends AbstractThreadGroup {
     public static final String DELAY = "ThreadGroup.delay";
     private transient Thread threadStarter;
     private final ConcurrentHashMap<JMeterThread, Thread> allThreads = new ConcurrentHashMap();
-    private transient Object addThreadLock = new Object();
+    private transient ReentrantLock addThreadLock = new ReentrantLock();
     private volatile boolean running = false;
     private int groupNumber;
     private boolean delayedStartup;
@@ -124,7 +125,7 @@ public class CustomThreadGroup extends AbstractThreadGroup {
         this.delayedStartup = this.isDelayedStartup();
         log.info("Starting thread group... number={} threads={} ramp-up={} delayedStart={}", new Object[]{this.groupNumber, numThreads, rampUpPeriodInSeconds, this.delayedStartup});
         if (this.delayedStartup) {
-//            this.threadStarter = new Thread(new CustomThreadGroup.ThreadStarter(notifier, threadGroupTree, engine), this.getName() + "-ThreadStarter");
+//          this.threadStarter = new Thread(new CustomThreadGroup.ThreadStarter(notifier, threadGroupTree, engine), this.getName() + "-ThreadStarter");
             this.threadStarter = Thread.ofVirtual().unstarted(new CustomThreadGroup.ThreadStarter(notifier, threadGroupTree, engine));
             this.threadStarter.setName(this.getName() + "-ThreadStarter");
             this.threadStarter.setDaemon(true);
@@ -158,7 +159,7 @@ public class CustomThreadGroup extends AbstractThreadGroup {
         JMeterThread jmThread = this.makeThread(engine, this, notifier, this.groupNumber, threadNum, cloneTree(threadGroupTree), variables);
         this.scheduleThread(jmThread, now);
         jmThread.setInitialDelay(delay);
-//        Thread newThread = new Thread(jmThread, jmThread.getThreadName());
+//      Thread newThread = new Thread(jmThread, jmThread.getThreadName());
         Thread newThread = Thread.ofVirtual().unstarted(jmThread);
         newThread.setName(jmThread.getThreadName());
         this.registerStartedThread(jmThread, newThread);
@@ -168,7 +169,7 @@ public class CustomThreadGroup extends AbstractThreadGroup {
 
     private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
         in.defaultReadObject();
-        this.addThreadLock = new Object();
+        //this.addThreadLock = new Object();
     }
 
     private void registerStartedThread(JMeterThread jMeterThread, Thread newThread) {
@@ -179,9 +180,16 @@ public class CustomThreadGroup extends AbstractThreadGroup {
         long now = System.currentTimeMillis();
         JMeterContext context = JMeterContextService.getContext();
         int numThreads;
-        synchronized(this.addThreadLock) {
+//        synchronized(this.addThreadLock) {
+//            numThreads = this.getNumThreads();
+//            this.setNumThreads(numThreads + 1);
+//        }
+        try {
+            addThreadLock.lock();
             numThreads = this.getNumThreads();
             this.setNumThreads(numThreads + 1);
+        } finally {
+            addThreadLock.unlock();
         }
 
         JMeterThread newJmThread = this.startNewThread(this.notifier, this.threadGroupTree, engine, numThreads, context.getVariables(), now, delay);

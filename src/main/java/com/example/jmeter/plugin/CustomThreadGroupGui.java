@@ -11,7 +11,6 @@ import javax.swing.*;
 import org.apache.jmeter.control.LoopController;
 import org.apache.jmeter.control.gui.LoopControlPanel;
 import org.apache.jmeter.gui.JBooleanPropertyEditor;
-import org.apache.jmeter.gui.TestElementMetadata;
 import org.apache.jmeter.testelement.TestElement;
 import org.apache.jmeter.testelement.property.BooleanProperty;
 import org.apache.jmeter.threads.AbstractThreadGroup;
@@ -24,9 +23,6 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import net.miginfocom.swing.MigLayout;
 
-@TestElementMetadata(
-    labelResource = "threadgroup"
-)
 public class CustomThreadGroupGui extends AbstractThreadGroupGui implements ItemListener {
     private static final long serialVersionUID = 240L;
     private LoopControlPanel loopPanel;
@@ -124,7 +120,7 @@ public class CustomThreadGroupGui extends AbstractThreadGroupGui implements Item
     }
 
     public String getLabelResource() {
-        return "threadgroup1";
+        return "threadgroup";
     }
 
     public void clearGui() {
@@ -172,5 +168,10 @@ public class CustomThreadGroupGui extends AbstractThreadGroupGui implements Item
         threadPropsPanel.add(this.delayLabel);
         threadPropsPanel.add(this.delay);
         this.add(threadPropsPanel, "Center");
+    }
+
+    @Override
+    public String getStaticLabel() {
+        return "Virtual Thread Group";
     }
 }
