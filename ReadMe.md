@@ -1,6 +1,8 @@
 
 # JMeter Virtual Thread Group Plugin 
 
+> Run 50k threads/users under 2.5G ..!! 
+
 This is a quick demonstration of using Java 21 Virtual threads for JMeter, which is a game changer for JMeter. Using virtual threads, we can reduce resource usage dramatically, and a single client would be able to put more load with very low memory usage."
 
 **Java 21 Virtual Threads**: Java Virtual Threads (Project loom), introduced in Java 21, are lightweight threads provided by the Java platform. Unlike traditional threads, virtual threads are managed by the Java Virtual Machine (JVM) and are intended to be more efficient and scalable.
@@ -20,7 +22,7 @@ Single Client Handling More Load: With virtual threads, a single JMeter client (
 
 This project requires **JDK 21 or higher**. Before proceeding, make sure you have JDK 21 installed on your system. You can download and install JDK 21 from the official Oracle website or use an OpenJDK distribution.
 
-## Installation
+## Building from Source (Optional)
 
 To use this JMeter plugin, follow these steps:
 
@@ -43,36 +45,50 @@ To use this JMeter plugin, follow these steps:
 
 ## Using the Plugin in JMeter
 
-1. Copy the generated JAR file from the `target/` directory to the JMeter `lib/ext/` directory.
+1. Build plugin from steps mentioned above or simply download latest from [Releases Page](https://github.com/nirmal-mewada/jmeter-loom/releases)
+2. Copy the generated JAR file from the `target/` directory or download directory to the JMeter `lib/ext/` directory.
    ```shell
-   cp target/virtual-thread-group-plugin-1.0-SNAPSHOT.jar <path-to-jmeter>/lib/ext/
+   cp virtual-thread-group-plugin-1.0-SNAPSHOT.jar <path-to-jmeter>/lib/ext/
    ```
 
-2. Start or restart JMeter.
+3. Start or restart JMeter.
 
-3. You can now use the plugin in your JMeter test plans by adding the appropriate elements to your test plan.
+4. You can now use the plugin in your JMeter test plans by adding the appropriate elements to your test plan.
 
-4. Add **Virtual Thread Group** element
+5. Add **Virtual Thread Group** element
 ![Alt Text](screenshots/Menu.png)
-5. Configure Threads. You will see title Virtual Thread Properties header for right thread group. 
+6. Configure Threads. You will see title Virtual Thread Properties header for right thread group. 
 ![Alt Text](screenshots/ThreadProps.png)
-6. I employed a local Nginx server that responds with a 200 status code. My primary goal was to observe Jmeter's behavior without focusing on errors.
-
-```markdown
--- nginx.conf 
-location /test {
-    return 200 'OK';
- }
-```
-
-7. Final Result.
+7. I employed a local Nginx server that responds with a 200 status code. My primary goal was to observe Jmeter's behavior without focusing on errors. See [nginx.conf](nginx.conf)
+   ```markdown
+   # nginx.conf 
+   location /test {
+       return 200 'OK';
+    }
+   ```
+8. You might need to update system ulimit to avoid `Too many open files` errors
+9. Final Result.
 ![Alt Text](screenshots/Result.png)
 
 ## Contribution
 
 If you'd like to contribute to this project, please fork the repository and create a pull request. We welcome contributions from the community!
 
-## License
+Apache-License
+==============
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+License
+=======
+    Copyright 2023 Nirmal Suthar
 
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
