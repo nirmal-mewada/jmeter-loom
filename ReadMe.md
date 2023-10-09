@@ -70,6 +70,10 @@ To use this JMeter plugin, follow these steps:
 9. Final Result.
 ![Alt Text](screenshots/Result.png)
 
+
+### Warning: Thread Pinning
+While this may have a Java-specific context, it's crucial to remember that any sampler component, element, or listener utilizing synchronized blocks or native JNI calls can lead to what's known as Thread pinning. In such cases, Virtual threads may not scale effectively due to a limited number of OS threads, potentially resulting in inconsistent or abnormal behavior.     
+
 ## Contribution
 
 If you'd like to contribute to this project, please fork the repository and create a pull request. We welcome contributions from the community!
