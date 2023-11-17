@@ -17,10 +17,23 @@ Single Client Handling More Load: With virtual threads, a single JMeter client (
 
 **Low Memory Usage**: Traditional threads can be memory-intensive, especially when you have a large number of concurrent users in a JMeter test. Virtual threads, being lightweight, use significantly less memory. This is particularly beneficial when running JMeter on machines with limited RAM. 
 
+## Dependencies
 
-## JDK 21 Dependency
+### JDK 21
 
 This project requires **JDK 21 or higher**. Before proceeding, make sure you have JDK 21 installed on your system. You can download and install JDK 21 from the official Oracle website or use an OpenJDK distribution.
+
+### JMeter Supporter Version
+
+As of now the compatibility for this plugin has been tested to work for JMeter 5.6.2
+
+### Operating system
+
+Available version [v1.0](https://github.com/nirmal-mewada/jmeter-loom/releases/tag/v1) is working under MacOS with M1 chip. To be able to use it under windows please compile the source code under Windows with your desired architecture (x86 or x64). 
+
+This code has been also tested to work using Windows 10 Pro x64.
+
+**Note:** Unofficial Windows version can be found [here](https://github.com/nirmal-mewada/jmeter-loom/files/13391040/virtual-thread-group-plugin-1.0-SNAPSHOT.zip) 
 
 ## Building from Source (Optional)
 
@@ -84,13 +97,13 @@ Apache-License
 License
 =======
     Copyright 2023 Nirmal Suthar
-
+    
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
     You may obtain a copy of the License at
-
+    
        http://www.apache.org/licenses/LICENSE-2.0
-
+    
     Unless required by applicable law or agreed to in writing, software
     distributed under the License is distributed on an "AS IS" BASIS,
     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
